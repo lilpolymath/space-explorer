@@ -1,7 +1,7 @@
 {
-  "name": "fullstack-tutorial-server",
+  "name": "space-explorer-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "GraphQL server for the Space Explorer.",
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
