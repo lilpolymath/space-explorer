@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { ApolloServer, gql } = require('apollo-server-express');
 const isEmail = require('isemail');
 
@@ -9,6 +10,7 @@ const UserAPI = require('./datasources/user');
 const LaunchAPI = require('./datasources/launch');
 
 const app = express();
+app.use(cors());
 
 const store = createStore();
 const server = new ApolloServer({
@@ -35,6 +37,6 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-app.listen({ port: process.env.PORT || 4000 }, () => {
-  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+app.listen({ port: process.env.PORT || 8000 }, () => {
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 });
