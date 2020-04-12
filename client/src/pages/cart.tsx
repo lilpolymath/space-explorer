@@ -33,7 +33,7 @@ const Cart: React.FC<CartProps> = () => {
                 <CartItem key={launchId} launchId={launchId} />
               ))
             }
-            <BookTrips cartItem={!!data ? data.cartItems : []} />
+            <BookTrips cartItems={!!data ? data.cartItems : []} />
           </Fragment>
         )}
     </Fragment>
