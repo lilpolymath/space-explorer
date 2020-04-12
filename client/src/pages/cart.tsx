@@ -11,7 +11,7 @@ export const GET_CART_ITEMS = gql`
   query GetCartItems {
     cartItems @client
   }
-`
+`;
 
 interface CartProps extends RouteComponentProps { }
 
@@ -25,7 +25,7 @@ const Cart: React.FC<CartProps> = () => {
     <Fragment>
       <Header>My Cart</Header>
       {!data || !!data && data.cartItems.length === 0 ? (
-        <p>No items in your cart.</p>
+        <p data-testid="empty-message">No items in your cart.</p>
       ) : (
           <Fragment>
             {

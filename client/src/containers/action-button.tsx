@@ -52,7 +52,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   if (error) return <p>An Error Occured.</p>;
   return (
     <div>
-      <Button onClick={() => mutate()} data-test-id={'action-button'}>
+      <Button onClick={() => mutate()} data-testid={'action-button'}>
         {isBooked
           ? 'Cancel this trip'
           : isInCart

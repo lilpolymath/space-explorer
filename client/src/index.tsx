@@ -16,7 +16,7 @@ const cache = new InMemoryCache();
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
   link: new HttpLink({
-    uri: "http://localhost:3000/graphql",
+    uri: "http://localhost:3003/graphql",
     headers: localStorage.getItem("token")
   }),
   resolvers,
@@ -25,23 +25,10 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
 
 cache.writeData({
   data: {
-    isLoggedIn: !localStorage.getItem("token"),
+    isLoggedIn: !!localStorage.getItem("token"),
     cartItems: [],
   }
 });
-
-client.query({
-  query: gql`
-      query GetLaunch {
-        launch(id: 56) {
-          id
-          mission {
-            name
-          }
-        }
-      }
-    `
-}).then(result => console.log(result))
 
 injectStyles();
 
