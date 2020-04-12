@@ -7,7 +7,7 @@ import { Header, Loading, LaunchTile } from '../components';
 import * as GetMyTripsTypes from './__generated__/GetMyTrips';
 import { LAUNCH_TILE_DATA } from './launches';
 
-export const GET_MY_TRIP = gql`
+export const GET_MY_TRIPS = gql`
   query GetMyTrips {
     me {
       id
@@ -24,12 +24,12 @@ interface ProfileProps extends RouteComponentProps { }
 
 const Profile: React.FC<ProfileProps> = () => {
   const { data, loading, error } = useQuery<GetMyTripsTypes.GetMyTrips, any>(
-    GET_MY_TRIP,
+    GET_MY_TRIPS,
     { fetchPolicy: 'network-only' }
   );
   if (loading) return <Loading />;
   if (error) return <p>Error: {error.message}</p>;
-  if (!data) return <p>Not found.</p>;
+  if (data === undefined) return <p>Not found.</p>;
   return (
     <Fragment>
       <Header>My Trips</Header>
