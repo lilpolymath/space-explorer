@@ -8,28 +8,35 @@ const UserAPI = require('./datasources/user');
 const LaunchAPI = require('./datasources/launch');
 
 const store = createStore();
-const server = new ApolloServer({
-  context: async ({ req }) => {
-    const auth = (req.headers && req.headers.authorization) || '';
-    const email = Buffer.from(auth, 'Base64').toString('ascii');
 
-    if (!isEmail.validate(email)) return { user: null };
+const context = async ({ req }) => {
+  const auth = (req.headers && req.headers.authorization) || '';
+  const email = Buffer.from(auth, 'Base64').toString('ascii');
 
-    const users = await store.users.findOrCreate({ where: { email } });
-    const user = (users && users[0]) || null;
+  if (!isEmail.validate(email)) return { user: null };
 
-    return {
-      user: { ...user.dataValues },
-    };
-  },
-  typeDefs,
-  resolvers,
-  dataSources: () => ({
-    launchAPI: new LaunchAPI(),
-    userAPI: new UserAPI({ store }),
-  }),
+  const users = await store.users.findOrCreate({ where: { email } });
+  const user = (users && users[0]) || null;
+
+  return {
+    user: { ...user.dataValues },
+  };
+};
+
+const dataSources = () => ({
+  launchAPI: new LaunchAPI(),
+  userAPI: new UserAPI({ store }),
 });
 
-server.listen({ port: process.env.PORT || 3000 }).then(({ url }) => {
+const server = new ApolloServer({
+  context,
+  typeDefs,
+  resolvers,
+  introspection: true,
+  playground: true,
+  dataSources,
+});
+
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
   console.log(`🚀 app running at ${url}`);
 });
